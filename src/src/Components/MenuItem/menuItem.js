@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 class MenuItem extends Component {
 
     state = {
-        inputEditTitleValue: '',
-        inputEditUrlValue: '',
+        title: this.props.value.title,
+        url: '',
         expanded: false
     };
 
@@ -16,21 +16,21 @@ class MenuItem extends Component {
         });
     };
 
-    handleRemoveClick = (itemID) => {
-        let itemValueID = itemID;
-        this.props.transferDataRemove(itemValueID);
-    };
+    // handleRemoveClick = (itemID) => {
+    //     let itemValueID = itemID;
+    //     this.props.transferDataRemove(itemValueID);
+    // };
 
     handleEditClick = () => {
         this.setState({ expanded: !this.state.expanded});
     };
 
     handleSaveClick = (itemID) => {
-        let inputTitle = this.state.inputEditTitleValue;
-        let inputUrl = this.state.inputEditUrlValue;
+        let inputTitle = this.state.title;
+        let inputUrl = this.state.url;
         let itemValueID = itemID;
         this.props.transferDataSave(itemValueID, inputTitle, inputUrl);
-        this.setState({inputEditTitleValue: '', inputEditUrlValue: '', expanded: ''});
+        this.setState({expanded: false});
     };
 
     render() {
@@ -42,25 +42,26 @@ class MenuItem extends Component {
                 {itemExpanded ? (
                     <span>
                       <input
-                          type="text"
-                          name="inputEditTitleValue"
                           className="form-control"
-                          value={this.state.inputEditTitleValue}
+                          name="title"
                           onChange={this.handleChange}
+                          type="text"
+                          value={this.state.title}
+
                       />
                       <input
-                          type="text"
-                          name="inputEditUrlValue"
                           className="form-control"
-                          value={this.state.inputEditUrlValue}
+                          name="url"
                           onChange={this.handleChange}
+                          type="text"
+                          value={this.state.url}
                       />
                       <i className="icon-save" onClick={this.handleSaveClick.bind(this, item.id)}>Save</i>
                   </span>
                 ) : (
                     <a href={item.linkUrl} target="_blank" className="list-item-text">{item.title}</a>
                 )}
-                <i className="icon-remove" onClick={this.handleRemoveClick.bind(this, item.id)}></i>
+                <i className="icon-remove" onClick={this.props.transferDataRemove(item.id)}></i>
                 <i className="icon-edit" onClick={this.handleEditClick}>edit</i>
             </li>
         );

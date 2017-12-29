@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 class MenuForm extends Component {
 
     state = {
-        valueTitle: '',
-        valueLink: ''
+        title: '',
+        url: ''
     };
 
     handleChange = (event) => {
@@ -16,13 +16,17 @@ class MenuForm extends Component {
     };
 
     handleBtnClick = () => {
-        let titleValue = this.state.valueTitle;
-        let urlValue = this.state.valueLink;
+        let titleValue = this.state.title;
+        let urlValue = this.state.url;
         if(!titleValue && !urlValue) {
             return;
         }
         this.props.transferData(titleValue, urlValue);
-        this.setState({valueTitle: '', valueLink: ''});
+        this.setState({title: '', url: ''});
+    };
+
+    validateField = (inputName, value) => {
+
     };
 
     validateForm = () => {
@@ -35,18 +39,18 @@ class MenuForm extends Component {
                 <div className="form-group">
                     <input
                         type="text"
-                        name="valueTitle"
+                        name="title"
                         className="form-control"
-                        value={this.state.valueTitle}
+                        value={this.state.title}
                         onChange={this.handleChange}
                     />
                 </div>
                 <div className="form-group">
                     <input
                         type="text"
-                        name="valueLink"
+                        name="url"
                         className="form-control"
-                        value={this.state.valueLink}
+                        value={this.state.url}
                         onChange={this.handleChange}
                     />
                 </div>
