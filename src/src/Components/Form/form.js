@@ -7,6 +7,14 @@ class MenuForm extends Component {
         valueLink: ''
     };
 
+    handleChange = (event) => {
+        let name = event.target.name;
+        let val = event.target.value;
+        this.setState({
+            [name]: val
+        });
+    };
+
     handleBtnClick = () => {
         let titleValue = this.state.valueTitle;
         let urlValue = this.state.valueLink;
@@ -16,6 +24,10 @@ class MenuForm extends Component {
         this.props.transferData(titleValue, urlValue);
         this.setState({valueTitle: '', valueLink: ''});
     };
+
+    validateForm = () => {
+
+    };
     
     render() {
         return (
@@ -23,18 +35,19 @@ class MenuForm extends Component {
                 <div className="form-group">
                     <input
                         type="text"
-                        name="value"
+                        name="valueTitle"
                         className="form-control"
                         value={this.state.valueTitle}
-                        onChange={event => this.setState({ valueTitle: event.target.value })}/>
+                        onChange={this.handleChange}
+                    />
                 </div>
                 <div className="form-group">
                     <input
                         type="text"
-                        name="link"
+                        name="valueLink"
                         className="form-control"
                         value={this.state.valueLink}
-                        onChange={event => this.setState({ valueLink: event.target.value })}
+                        onChange={this.handleChange}
                     />
                 </div>
                 <button type="button" className="btn btn-primary btn-click" onClick={this.handleBtnClick}>Добавить</button>

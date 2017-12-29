@@ -8,6 +8,14 @@ class MenuItem extends Component {
         expanded: false
     };
 
+    handleChange = (event) => {
+        let name = event.target.name;
+        let val = event.target.value;
+        this.setState({
+            [name]: val
+        });
+    };
+
     handleRemoveClick = (itemID) => {
         let itemValueID = itemID;
         this.props.transferDataRemove(itemValueID);
@@ -35,15 +43,17 @@ class MenuItem extends Component {
                     <span>
                       <input
                           type="text"
+                          name="inputEditTitleValue"
                           className="form-control"
                           value={this.state.inputEditTitleValue}
-                          onChange={event => this.setState({ inputEditTitleValue: event.target.value })}
+                          onChange={this.handleChange}
                       />
                       <input
                           type="text"
+                          name="inputEditUrlValue"
                           className="form-control"
                           value={this.state.inputEditUrlValue}
-                          onChange={event => this.setState({ inputEditUrlValue: event.target.value })}
+                          onChange={this.handleChange}
                       />
                       <i className="icon-save" onClick={this.handleSaveClick.bind(this, item.id)}>Save</i>
                   </span>
