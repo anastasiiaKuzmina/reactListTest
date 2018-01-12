@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 class MenuItem extends Component {
 
     state = {
-        title: this.props.value.title,
-        url: '',
+        title: this.props.value.name,
+        url: this.props.value.link,
         expanded: false
     };
 
@@ -15,11 +15,6 @@ class MenuItem extends Component {
             [name]: val
         });
     };
-
-    // handleRemoveClick = (itemID) => {
-    //     let itemValueID = itemID;
-    //     this.props.transferDataRemove(itemValueID);
-    // };
 
     handleEditClick = () => {
         this.setState({ expanded: !this.state.expanded});
@@ -59,9 +54,9 @@ class MenuItem extends Component {
                       <i className="icon-save" onClick={this.handleSaveClick.bind(this, item.id)}>Save</i>
                   </span>
                 ) : (
-                    <a href={item.linkUrl} target="_blank" className="list-item-text">{item.title}</a>
+                    <a href={item.link} target="_blank" className="list-item-text">{item.name}</a>
                 )}
-                <i className="icon-remove" onClick={this.props.transferDataRemove(item.id)}></i>
+                <i className="icon-remove" onClick={() => this.props.transferDataRemove(item.id)}></i>
                 <i className="icon-edit" onClick={this.handleEditClick}>edit</i>
             </li>
         );

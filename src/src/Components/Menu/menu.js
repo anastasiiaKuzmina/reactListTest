@@ -3,18 +3,14 @@ import MenuItem from '../MenuItem/menuItem';
 
 class Menu extends Component {
 
-    transferDataRemove = (item) => {
-        this.props.transferDataRemove(item);
-    };
-
-    transferDataSave = (item, inputValue1, inputValue2) => {
-        this.props.transferDataSave(item, inputValue1, inputValue2);
-    };
+    // transferDataSave = (item, inputValue1, inputValue2) => {
+    //     this.props.transferDataSave(item, inputValue1, inputValue2);
+    // };
 
     render() {
 
         const listItems = this.props.dataMenu.items.map((item, index) =>
-            <MenuItem value={item} key={index} transferDataRemove={this.transferDataRemove} transferDataSave={this.transferDataSave} />
+            <MenuItem value={item} key={index} transferDataRemove={this.props.transferDataRemove} transferDataSave={this.props.transferDataSave} />
         );
         
         return (

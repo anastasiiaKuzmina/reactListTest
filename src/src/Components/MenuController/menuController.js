@@ -3,17 +3,20 @@ import '../../menu.css';
 import MenuForm from '../Form/form';
 import Menu from '../Menu/menu';
 import MenuItem from '../MenuItem/menuItem';
-import {dataSet1} from '../../data';
+import {performGetRequestConst} from '../../data';
+import axios from 'axios';
 
 class MenuController extends Component {
 
     state = {
-        data: dataSet1
+        data: {
+            items: []
+        }
     };
 
     addItem = (itemTitle, itemUrl) => {
         let data = this.state.data;
-        data.items.push({id: data.id++,title: itemTitle, linkUrl: itemUrl});
+        data.items.push({id: data.id++,name: itemTitle, link: itemUrl});
         this.setState({data});
     };
 
@@ -27,18 +30,35 @@ class MenuController extends Component {
         let data = this.state.data;
         data.items = data.items.map((elem) => {
             if(elem.id === Number(itemID)) {
-                elem.title = inputValue1;
-                elem.linkUrl = inputValue2;
+                elem.name = inputValue1;
+                elem.href = inputValue2;
             }
             return elem;
         });
         this.setState({data});
     };
 
+    componentDidMount() {
+        performGetRequestConst(function(data) {
+            console.log(data);
+            this.setState({data: {items: data}});
+        }.bind(this));
+
+        // axios.get('http://eprupetw6068.petersburg.epam.com/api/products/getset')
+        //     .then(function (response) {
+        //         console.log(response);
+        //         const result = JSON.parse(response.data);
+        //         this.setState({data: {items:result}});
+        //     }.bind(this))
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
+    }
+
     render() {
         return (
             <div className="menu-block">
-                <Menu dataMenu={this.state.data} dataMenu={this.state.data} transferDataRemove={this.removeItem} transferDataSave={this.saveItem} />
+                <Menu dataMenu={this.state.data} transferDataRemove={this.removeItem} transferDataSave={this.saveItem} />
                 <MenuForm transferData={this.addItem} />
             </div>
         );
