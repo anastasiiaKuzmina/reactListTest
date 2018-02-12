@@ -33,7 +33,7 @@ class MenuItem extends Component {
         const itemExpanded = this.state.expanded;
         
         return (
-            <li className="list-item">
+            <li className="list-item" id={item.id} >
                 {itemExpanded ? (
                     <span>
                       <input

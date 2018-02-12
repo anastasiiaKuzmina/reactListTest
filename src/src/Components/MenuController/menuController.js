@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
+import { idGenerator }  from 'react-id-generator';
 import '../../menu.css';
 import MenuForm from '../Form/form';
 import Menu from '../Menu/menu';
-import MenuItem from '../MenuItem/menuItem';
-import {performGetRequestConst} from '../../data';
-import axios from 'axios';
+import {performGetRequestConst, addRequestConst, removeRequestConst, updateRequestConst } from '../../data';
 
 class MenuController extends Component {
 
@@ -14,45 +13,49 @@ class MenuController extends Component {
         }
     };
 
+    randomID = () => {
+        let variable = 0;
+        let flag = false;
+
+        do {
+            variable = parseInt(Math.random() * 10000);
+            console.log(variable);
+            flag = false;
+
+            this.state.data.items.forEach(function(item) {
+                if(item.id == variable) {
+                    flag = true;
+                    console.log('Igor');
+                }
+            });
+        } while(flag);
+
+        return variable;
+    };
+
     addItem = (itemTitle, itemUrl) => {
         let data = this.state.data;
-        data.items.push({id: data.id++,name: itemTitle, link: itemUrl});
-        this.setState({data});
+        let obj = {id: this.randomID(),name: itemTitle, link: itemUrl};
+        addRequestConst(this.getData, obj);
     };
 
     removeItem = (indexElement) => {
         let data = this.state.data;
-        data.items = data.items.filter(i => i.id != indexElement);
-        this.setState({data});
+        removeRequestConst(this.getData, indexElement);
     };
 
     saveItem = (itemID, inputValue1, inputValue2) => {
         let data = this.state.data;
-        data.items = data.items.map((elem) => {
-            if(elem.id === Number(itemID)) {
-                elem.name = inputValue1;
-                elem.href = inputValue2;
-            }
-            return elem;
-        });
-        this.setState({data});
+        let obj = {id: itemID, name: inputValue1, link: inputValue2};
+        updateRequestConst(this.getData, obj);
+    };
+
+    getData = (data) => {
+        this.setState({data: {items: data}});
     };
 
     componentDidMount() {
-        performGetRequestConst(function(data) {
-            console.log(data);
-            this.setState({data: {items: data}});
-        }.bind(this));
-
-        // axios.get('http://eprupetw6068.petersburg.epam.com/api/products/getset')
-        //     .then(function (response) {
-        //         console.log(response);
-        //         const result = JSON.parse(response.data);
-        //         this.setState({data: {items:result}});
-        //     }.bind(this))
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     });
+        performGetRequestConst(this.getData);
     }
 
     render() {
